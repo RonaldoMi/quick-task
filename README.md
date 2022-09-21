@@ -1,4 +1,4 @@
-# app-mock
+# quick-task
 
 ## Project setup
 ```
