@@ -1,4 +1,30 @@
 const helpers: object = {
+  func: {
+    getAvatarName(name: string): string{
+      if (name){
+        const firstLetter = name.charAt(0)
+        const lastSpace = name.lastIndexOf(" ")
+        let lastLetter = ""
+
+        if(lastSpace > 0) {
+          lastLetter = name.substring(lastSpace + 1, lastSpace + 2);
+        }
+
+        return (firstLetter + lastLetter).toUpperCase()
+      }
+
+      return ''
+    },
+
+    getFirstName(name: string): string {
+      if (name){
+        return name.split(' ').slice(0, -1).join(' ')
+      }
+
+      return ''
+    }
+  },
+
   fonts: {
     // returns a custom poppins font
     poppins(fSize = '12px', hexColor = '#FFFFFF',

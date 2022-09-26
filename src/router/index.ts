@@ -3,6 +3,7 @@ import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
 import LoginView from '../views/LoginView.vue'
 import TaskView from '@/views/TaskView.vue'
+import HomeView from '@/views/HomeView.vue';
 import axios from 'axios'
 import store from '@/store/index'
 
@@ -20,6 +21,28 @@ const routes: Array<RouteConfig> = [
       requiresAuth: false,
     },
   },
+
+  {
+    path: '/home',
+    name: 'Inicio',
+    component: HomeView,
+    meta: {
+      breadCrumb: 'Inicio',
+      title: 'Inicio',
+      requiresAuth: true,
+    },
+  },
+
+  {
+    path: '/task',
+    name: 'Tarefas',
+    component: TaskView,
+    meta: {
+      breadCrumb: 'Lista de Tarefas',
+      title: 'Tarefas',
+      requiresAuth: true,
+    },
+  }
 ]
 
 const router = new VueRouter({
