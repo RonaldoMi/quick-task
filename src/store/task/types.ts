@@ -6,6 +6,7 @@ interface TaskState {
   state: string
   limiteDate: Date
   createDate: Date
+  doneDate: Date | null
 }
 
 interface TaskStates extends Array<TaskState>{}

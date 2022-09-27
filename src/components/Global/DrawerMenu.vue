@@ -94,7 +94,7 @@
                   headline
                   body-1"
               >
-                {{ helpers.func.getAvatarName(useName) }}
+                {{ getAvatarName(useName) }}
               </span>
             </v-avatar>
 
@@ -102,7 +102,7 @@
               v-show="$vuetify.breakpoint.mdAndUp"
               class="text-capitalize pl-2"
             >
-              {{ `Olá, ${helpers.func.getFirstName(useName)}` }}
+              {{ `Olá, ${getFirstName(useName)}` }}
             </b>
             <v-icon right dark>keyboard_arrow_down</v-icon>
           </v-btn>
@@ -133,14 +133,17 @@
 </template>
 
 <script lang="ts">
-import helpers from '@/mixins/helpers'
+import { getAvatarName, getFirstName } from '@/mixins/helpersFunc'
 import { UserMutation } from '@/store/user/mutations'
 
 export default {
   name: 'DrawerMenu',
 
+
   data: () => ({
-    helpers: helpers,
+    getAvatarName: getAvatarName,
+    getFirstName: getFirstName,
+
     drawer: true,
     menuItems: [
       { icon: 'home', text: 'Início', route: '/home' },

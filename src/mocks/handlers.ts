@@ -1,17 +1,9 @@
+import { TaskState } from '@/store/task/types';
 import { rest } from 'msw'
 
 
-interface Task {
-  id: number,
-  title: string
-  description: string
-  priority: string
-  state: string
-  limiteDate: Date
-  createDate: Date
-}
 // simulated database
-const taskDb: Array<Task> = []
+const taskDb: Array<TaskState> = []
 let lastTaskId: number
 
 // Method to generate 30 tasks with random information
@@ -20,15 +12,18 @@ for (let i=0; i<30; i++){
   const states = ['new', 'done']
   const lmDate = new Date(new Date().setDate(Math.floor(Math.random() * 28)))
   const crDate = new Date(new Date().setDate(Math.floor(Math.random() * 28)))
+  const doneDate = new Date(new Date().setDate(Math.floor(Math.random() * 28)))
 
-  const newTask: Task = {
+  const randState = states[Math.floor(Math.random() * 2)]
+  const newTask: TaskState = {
     id: i+1,
     title: `Gerada automática ${i}`,
     description: `Descrição automática ${i}`,
     priority: prioritys[Math.floor(Math.random() * 3)],
-    state: states[Math.floor(Math.random() * 2)],
+    state: randState,
     limiteDate: lmDate,
-    createDate: crDate
+    createDate: crDate,
+    doneDate: randState == 'done' ? doneDate : null
   }
   taskDb.push(newTask)
   lastTaskId = i+1
@@ -103,14 +98,15 @@ export const handlers = [
     const taskInfo = await req.json()
 
     if (token && token == 'f79e82e8-c34a-4dc7-a49e-9fadc0979fda'){
-      const newTask: Task = {
+      const newTask: TaskState = {
         id: lastTaskId+1,
         title: taskInfo.title,
         description: taskInfo.description,
         priority: taskInfo.priority,
         state: 'new',
         limiteDate: taskInfo.limiteDate,
-        createDate: new Date()
+        createDate: new Date(),
+        doneDate: null,
       }
       taskDb.push(newTask)
       lastTaskId+1
@@ -142,6 +138,7 @@ export const handlers = [
 
       if (findTask){
         findTask.state = 'done'
+        findTask.doneDate = new Date()
         return res(
           ctx.json({
             task: findTask,
