@@ -286,12 +286,28 @@
     <NewTask
       v-model="showNewTask"
       @close="showNewTask = false"
+      @showSnack="showSnackBar"
     />
+
     <TaskDetails
       v-model="showTaskDetails"
       :task="selectedTask"
       @close="showTaskDetails = false"
+      @showSnack="showSnackBar"
     />
+
+    <v-snackbar
+      v-model="showSnack"
+      :color="snackColor"
+      top
+      right
+      absolute
+      elevation="3"
+      shaped
+      timeout="4000"
+    >
+      {{ snackText }}
+    </v-snackbar>
   </div>
 </template>
 
@@ -313,6 +329,9 @@
     data () {
       return {
         selectedTask: {} as TaskState,
+        showSnack: false,
+        snackColor: 'string',
+        snackText: '',
         selectSortBy: 'Criado em',
         search: '',
         sortDesc: true,
@@ -378,13 +397,25 @@
       },
 
       formatDate (date: Date): string {
-        return moment(date).format("DD/MM/YYYY")
+        return moment(date).format("DD/MM/YYYY hh:mm")
       },
 
       openTaskDetail (task: TaskState): void {
         this.selectedTask = task
         this.showTaskDetails = true
-      }
+      },
+
+      showSnackBar (type: string): void {
+        if (type == 'error') {
+          this.snackText = 'Não foi possível concluir a operação'
+          this.snackColor = 'error'
+        } else {
+          this.snackText = 'Operação concluída com sucesso!'
+          this.snackColor = 'success'
+        }
+
+        this.showSnack = true
+      },
     },
 
     mounted(){

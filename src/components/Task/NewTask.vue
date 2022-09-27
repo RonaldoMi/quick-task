@@ -231,7 +231,7 @@
           if (this.form.validate() && !this.savingTask) {
             this.savingTask = true
 
-            await this.$store.dispatch("postNewTask", {
+            result = await this.$store.dispatch("postNewTask", {
               newTask: {
                 title: this.taskInfo.title,
                 description: this.taskInfo.description,
@@ -239,8 +239,11 @@
                 priority: this.taskInfo.priority
               }
             })
-            result = true
-            this.closeForm()
+
+            if (result){
+              this.closeForm()
+              this.$emit('showSnack', result ? 'success' : 'error')
+            }
           }
 
         } catch (error) {

@@ -26,7 +26,8 @@ export const actions: ActionTree<TaskStates, RootState> = {
   },
 
   postNewTask: async (context,  { newTask }) => {
-    axios.post(`/msw/create_task`,
+    let result = false
+    await axios.post(`/msw/create_task`,
     {
         title: newTask.title,
         description: newTask.description,
@@ -40,6 +41,7 @@ export const actions: ActionTree<TaskStates, RootState> = {
     })
     .then(response => {
       if (response.status == 200){
+        result = true
         store.commit(TaskMutation.ADD_TASK_IN_LIST, response.data.task)
       }
     }).catch(e => {
@@ -48,5 +50,56 @@ export const actions: ActionTree<TaskStates, RootState> = {
 
       alert(msg)
     })
+
+    return result
+  },
+
+  doneTask: async (context,  taskId: number) => {
+    let result = false
+    await axios.put(`/msw/done_task`, { id: taskId} ,
+    {
+      headers: {
+        'Access-Token': store.getters.getUserToken
+      },
+    })
+    .then(response => {
+      if (response.status == 200){
+        result = true
+        store.commit(TaskMutation.PUT_TASK_IN_LIST, response.data.task)
+      }
+    }).catch(e => {
+      let msg = 'Não foi possível conectar com o servidor.'
+      msg = e.response ? e.response.data.message : msg
+
+      alert(msg)
+    })
+
+    return result
+  },
+
+  deleteTask: async (context,  taskId: number) => {
+    let result = false
+    await axios.delete(`/msw/delete_task`,
+    {
+      params: {
+        taskId: taskId
+      },
+      headers: {
+        'Access-Token': store.getters.getUserToken
+      },
+    })
+    .then(response => {
+      if (response.status == 200){
+        result = true
+        store.commit(TaskMutation.DEL_TASK_IN_LIST, response.data.taskId)
+      }
+    }).catch(e => {
+      let msg = 'Não foi possível conectar com o servidor.'
+      msg = e.response ? e.response.data.message : msg
+
+      alert(msg)
+    })
+
+    return result
   },
 }

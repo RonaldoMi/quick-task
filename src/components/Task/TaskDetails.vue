@@ -51,6 +51,7 @@
               <v-list dense>
                 <template v-for="item in actionMenu">
                   <v-list-item
+                    v-show="item.id != 1 || task.state == 'new'"
                     :key="item.text"
                     @click="handleSubMenuClick(item.id)"
                     link
@@ -168,7 +169,7 @@
               cols="6"
             >
               <v-text-field
-                :value="task.state"
+                :value="stateNames[task.state]"
                 dense
                 outlined
                 label="Status"
@@ -227,6 +228,10 @@
           normal: 'Normal',
           high: 'Alta',
         },
+        stateNames: {
+          new: 'Novo',
+          done: 'Concluído'
+        },
         actionMenu: [
           { icon: 'done', text: 'Concluir Tarefa', id: 1 },
           { icon: 'delete', text: 'Excluir Tarefa', id: 2 },
@@ -245,15 +250,19 @@
     },
 
     methods: {
-      handleSubMenuClick (id: number): void {
+      async handleSubMenuClick (id: number): Promise<void> {
+        let result: boolean | undefined
+
         switch (id) {
           case 1:
-            console.log("Concluir")
+            result = await this.$store.dispatch("doneTask", this.task.id)
             break;
           case 2:
-            console.log("Deletar")
+            result = await this.$store.dispatch("deleteTask", this.task.id)
+            this.closeForm()
             break;
         }
+        this.$emit('showSnack', result ? 'sucess' : 'errror')
       },
 
       closeForm (): void {

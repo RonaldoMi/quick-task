@@ -10,28 +10,28 @@ export enum TaskMutation {
 }
 
 export const mutations: MutationTree<TaskStates> = {
-  [TaskMutation.SET_TASK_LIST] (state, payload: TaskStates) {
+  [TaskMutation.SET_TASK_LIST] (state, task: TaskStates) {
     state.splice(0, state.length)
 
-    payload.forEach(el => {
+    task.forEach(el => {
       state.push(el)
     })
   },
 
-  [TaskMutation.ADD_TASK_IN_LIST] (state, payload: TaskState) {
-    state.push(payload)
+  [TaskMutation.ADD_TASK_IN_LIST] (state, task: TaskState) {
+    state.push(task)
   },
 
-  [TaskMutation.PUT_TASK_IN_LIST] (state, payload: TaskState) {
-    let newTask = state.find(el => el.id == payload.id)
+  [TaskMutation.PUT_TASK_IN_LIST] (state, task: TaskState) {
+    const newTask = state.find(el => el.id == task.id)
 
     if (newTask){
-      newTask = payload
+      Object.assign(newTask, task)
     }
   },
 
-  [TaskMutation.DEL_TASK_IN_LIST] (state, payload: TaskState) {
-    const taskIndex = state.findIndex(el => el.id == payload.id)
+  [TaskMutation.DEL_TASK_IN_LIST] (state, taskId: number) {
+    const taskIndex = state.findIndex(el => el.id == taskId)
 
     if (taskIndex > -1){
       state.splice(taskIndex, 1)
