@@ -109,7 +109,7 @@ export const handlers = [
         doneDate: null,
       }
       taskDb.push(newTask)
-      lastTaskId+1
+      lastTaskId += 1
 
       return res(
         ctx.json({

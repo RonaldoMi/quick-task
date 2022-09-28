@@ -29,7 +29,8 @@ export function getFirstName(name: string): string {
 }
 
 // returns total tasks completed and created per day for chart display
-export function calcChartTasks (tasks: Array<TaskState>): {doneDate: any, createDate: any} {
+// eslint-disable-next-line
+export function calcChartTasks (tasks: Array<TaskState>): { doneDate: any, createDate: any } {
   interface CreateDate {
       [key: string]: number
   }
