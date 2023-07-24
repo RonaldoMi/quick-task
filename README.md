@@ -32,7 +32,7 @@ Para iniciar o projeto, siga os passos abaixo:
 2. Clone este repositório em sua máquina local:
 
 ```sh
-git clone https://github.com/seu_usuario/quick-task.git
+git clone https://github.com/RonaldoMi/quick-task.git
 ```
 
 3. Acesse o diretório do projeto:
