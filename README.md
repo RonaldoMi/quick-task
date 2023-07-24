@@ -2,6 +2,10 @@
 
 Este projeto é uma aplicação de gerenciamento de tarefas chamada "Quick Task". O sistema possui recursos de login, CRUD completo (Create, Read, Update, Delete) para tarefas e utiliza mock web services (MSW) para as rotas. Foi desenvolvido com Vue 2, TypeScript, Vuetify para os componentes e CSS para customizações.
 
+## Demonstração
+
+Confira a [demo online](https://quick-task-gamma.vercel.app/) hospedada no Vercel.
+
 ## Funcionalidades
 
 - Autenticação de usuários com login e logout.
